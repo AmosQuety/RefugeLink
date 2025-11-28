@@ -7,9 +7,9 @@ export class ServiceModel implements Service {
     public organization: string,
     public services: string,
     public location: string,
-    public contact_phone?: string,
-    public contact_email?: string,
-    public notes?: string,
+    public contact_phone: string | null = null,
+    public contact_email: string | null = null,
+    public notes: string | null = null,
     public created_at: string = new Date().toISOString(),
     public updated_at: string = new Date().toISOString()
   ) {}
@@ -21,9 +21,9 @@ export class ServiceModel implements Service {
       row.organization,
       row.services,
       row.location,
-      row.contact_phone,
-      row.contact_email,
-      row.notes,
+      row.contact_phone ?? null,
+      row.contact_email ?? null,
+      row.notes ?? null,
       row.created_at,
       row.updated_at
     );

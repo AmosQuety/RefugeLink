@@ -9,7 +9,12 @@ export class EnvironmentConfig {
 
   // Server details
   static readonly port = parseInt(process.env.PORT || '3000', 10);
-  static readonly baseUrl = process.env.BASE_URL;
+ 
+  // Use Render's URL first, then fallback to BASE_URL, then localhost
+  static readonly baseUrl = process.env.RENDER_EXTERNAL_URL || 
+                           process.env.BASE_URL || 
+                           `http://localhost:${this.port}`;
+
 
   // Supabase Configuration
   static readonly supabaseUrl = process.env.Supabase_Url || '';
@@ -45,7 +50,7 @@ export class EnvironmentConfig {
 
     // Production-specific checks
     if (this.isProduction()) {
-      if (!this.baseUrl) errors.push('BASE_URL is required in production');
+      // if (!this.baseUrl) errors.push('BASE_URL is required in production');
 
       if (this.allowedOrigins.includes('*')) {
         console.warn('⚠️ CORS allows all origins in production — not recommended.');
@@ -69,6 +74,7 @@ export class EnvironmentConfig {
   static getSummary(): Record<string, any> {
     return {
       environment: this.nodeEnv,
+      baseUrl: this.baseUrl,
       supabaseConfigured: !!(this.supabaseUrl && this.supabaseKey),
       twilioConfigured: !!(this.twilioAccountSid && this.twilioAuthToken),
       dialogflowEnabled: this.dialogflowEnabled,

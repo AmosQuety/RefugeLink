@@ -36,7 +36,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
   });
 
   // Capture response errors
-  res.on('error', (error) => {
+  res.on('error', (error: Error) => {
     AppLogger.error('Response error', error, {
       requestId,
       method: req.method,

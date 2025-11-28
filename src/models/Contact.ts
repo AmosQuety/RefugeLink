@@ -7,9 +7,9 @@ export class ContactModel implements Contact {
     public description: string,
     public type: 'Emergency' | 'General' | 'Fraud' | 'Hospital',
     public is_urgent: boolean,
-    public phone?: string,
-    public email?: string,
-    public notes?: string,
+    public phone: string | null = null,
+    public email: string | null = null,
+    public notes: string | null = null,
     public created_at: string = new Date().toISOString(),
     public updated_at: string = new Date().toISOString()
   ) {}
@@ -21,9 +21,9 @@ export class ContactModel implements Contact {
       row.description,
       row.type,
       Boolean(row.is_urgent),
-      row.phone,
-      row.email,
-      row.notes,
+      row.phone ?? null,
+      row.email ?? null,
+      row.notes ?? null,
       row.created_at,
       row.updated_at
     );

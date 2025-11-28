@@ -34,11 +34,11 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
   if (err instanceof ValidationError) {
     AppLogger.error('Validation error occurred', err, { path: req.path });
     res.status(400).json({ error: err.message });
-    } else {
+  } else {
     AppLogger.error('Unexpected error occurred', err, { path: req.path });
     res.status(500).json({ error: 'Internal Server Error' });
   }
-    next();
+  next();
 };
 
 export const asyncHandler = (fn: Function) => (

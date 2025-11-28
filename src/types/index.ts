@@ -139,6 +139,7 @@ export interface RegistrationStepCreate {
   description: string;
   requirements?: string | null;
   estimated_duration?: string | null;
+  
 }
 
 export interface RegistrationStepUpdate {
@@ -147,6 +148,7 @@ export interface RegistrationStepUpdate {
   description?: string;
   requirements?: string | null;
   estimated_duration?: string | null;
+  
 }
 
 // Required document types

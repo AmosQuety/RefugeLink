@@ -274,25 +274,25 @@ export const validateListQuery = (allowedFilters: string[] = []) => {
 
       AppLogger.debug('List query validation passed', { query: req.query });
       next();
-    } catch (error) {
-      AppLogger.warn('List query validation failed', {
-        error: error instanceof Error ? error.message : 'Unknown error',
-        query: req.query
-      });
+  } catch (error) {
+    AppLogger.warn('List query validation failed', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      query: req.query
+    });
 
-      if (error instanceof ValidationError) {
-        res.status(400).json({
-          error: {
-            message: error.message,
-            code: 'VALIDATION_ERROR',
-            timestamp: new Date().toISOString()
-          }
-        });
-      } else {
-        next(error);
-      }
+    if (error instanceof ValidationError) {
+      res.status(400).json({
+        error: {
+          message: error.message,
+          code: 'VALIDATION_ERROR',
+          timestamp: new Date().toISOString()
+        }
+      });
+    } else {
+      next(error);
     }
-  };
+  }
+};
 };
 
 /**

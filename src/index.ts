@@ -84,18 +84,18 @@ class Application {
     // Body parsing middleware with size limits
     this.app.use(express.json({ 
       limit: '10kb',
-      verify: (req: any, res, buf) => {
+      verify: (req: express.Request, res: express.Response, buf: Buffer) => {
         // Store raw body for Twilio signature validation
-        req.rawBody = buf;
+        (req as any).rawBody = buf;
       }
     }));
     this.app.use(express.urlencoded({ 
       extended: true, 
       limit: '10kb',
-      verify: (req: any, res, buf) => {
+      verify: (req: express.Request, res: express.Response, buf: Buffer) => {
         // Store raw body for Twilio signature validation
-        if (!req.rawBody) {
-          req.rawBody = buf;
+        if (!(req as any).rawBody) {
+          (req as any).rawBody = buf;
         }
       }
     }));
@@ -104,7 +104,7 @@ class Application {
     this.app.set('trust proxy', 1);
 
     // Health check endpoint (early, before auth)
-    this.app.get('/health', (req, res) => {
+    this.app.get('/health', (req: express.Request, res: express.Response) => {
       const healthStatus = {
         status: 'OK',
         service: 'Refugee WhatsApp Bot Backend',
@@ -194,7 +194,7 @@ class Application {
 
   private setupErrorHandling(): void {
     // 404 handler - must be after all routes
-    this.app.use('*', (req, res) => {
+    this.app.use('*', (req: express.Request, res: express.Response) => {
       AppLogger.warn('404 - Endpoint not found', {
         method: req.method,
         path: req.originalUrl,
