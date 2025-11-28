@@ -16,7 +16,7 @@ export class ResponseFormatter {
 
     return {
       message,
-      quickReplies: QUICK_REPLIES.REGISTRATION
+      quickReplies: [...QUICK_REPLIES.REGISTRATION] // Spread to create mutable array
     };
   }
 
@@ -28,7 +28,7 @@ export class ResponseFormatter {
     if (foodServices.length === 0) {
       return {
         message: 'Food assistance is primarily provided by the World Food Programme (WFP) to registered refugees in settlements. Please ensure you are registered with OPM to access these services.',
-        quickReplies: QUICK_REPLIES.FOOD
+        quickReplies: [...QUICK_REPLIES.FOOD] // Spread to create mutable array
       };
     }
 
@@ -40,7 +40,7 @@ export class ResponseFormatter {
 
     return {
       message,
-      quickReplies: QUICK_REPLIES.FOOD
+      quickReplies: [...QUICK_REPLIES.FOOD] // Spread to create mutable array
     };
   }
 
@@ -65,7 +65,7 @@ export class ResponseFormatter {
 
     return {
       message,
-      quickReplies: QUICK_REPLIES.HEALTHCARE
+      quickReplies: [...QUICK_REPLIES.HEALTHCARE] // Spread to create mutable array
     };
   }
 

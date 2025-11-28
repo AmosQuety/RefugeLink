@@ -1,6 +1,12 @@
-import { AppError } from ".";
+// types/errors.ts
+export class AppError extends Error {
+  constructor(message: string, public statusCode: number = 500) {
+    super(message);
+    this.name = 'AppError';
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
 
-// types/errors.ts - NEW FILE
 export class DatabaseError extends AppError {
   constructor(message: string, public originalError?: Error) {
     super(message, 500);
@@ -16,7 +22,7 @@ export class ExternalServiceError extends AppError {
 }
 
 export class RateLimitError extends AppError {
-  constructor(retryAfter?: number) {
+  constructor(public retryAfter?: number) {
     super('Too many requests', 429);
     this.name = 'RateLimitError';
   }

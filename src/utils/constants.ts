@@ -4,7 +4,7 @@ export const INTENT_NAMES = {
   FIND_SHELTER: 'find_shelter',
   FIND_HEALTHCARE: 'find_healthcare',
   FIND_EMERGENCY_CONTACTS: 'find_emergency_contacts',
-  WELCOME: 'Default Welcome Intent',
+  WELCOME: 'welcome',
   FALLBACK: 'Default Fallback Intent'
 } as const;
 
@@ -20,7 +20,8 @@ export const CONTACT_TYPES = {
   EMERGENCY: 'Emergency',
   GENERAL: 'General',
   FRAUD: 'Fraud',
-  HOSPITAL: 'Hospital'
+  HOSPITAL: 'Hospital',
+  SETTLEMENT: 'Settlement'
 } as const;
 
 export const BOT_MESSAGES = {
@@ -35,5 +36,22 @@ export const QUICK_REPLIES = {
   REGISTRATION: ['Contact Details', 'Required Documents', 'Registration Steps'],
   FOOD: ['Settlement Info', 'WFP Contacts', 'Distribution Points'],
   HEALTHCARE: ['Emergency Number', 'Hospital Info', 'Settlement Clinics'],
+  SHELTER: ['Settlement Info', 'WFP Contacts', 'Distribution Points'],
   GENERAL: ['More Info', 'Contact Support', 'Main Menu']
 } as const;
+
+export const MESSAGE_TYPES = {
+  TEXT: 'text',
+  QUICK_REPLY: 'quick_reply',
+  ERROR: 'error'
+} as const;
+
+export const SERVICE_CATEGORIES = {
+  FOOD: 'Food',
+  SHELTER: 'Shelter',
+  HEALTH: 'Health',
+  REGISTRATION: 'Registration',
+  EMERGENCY: 'Emergency'
+} as const;
+
+

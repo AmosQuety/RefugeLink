@@ -129,7 +129,7 @@ export class DialogflowService {
   }
 
   private shouldUseCustomLogic(intent: string): boolean {
-    const customIntents = [
+    const customIntents: string[] = [
       INTENT_NAMES.FIND_REGISTRATION,
       INTENT_NAMES.FIND_FOOD,
       INTENT_NAMES.FIND_SHELTER,
