@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { createWebhookRoutes } from './webhook.routes.js';
 import { WebhookController } from '../controllers/WebhookController.js';
 
@@ -10,7 +10,7 @@ export const createRoutes = (webhookController: WebhookController): Router => {
   router.use('/webhook', webhookRoutes);
 
   // Root endpoint
-  router.get('/', (req, res) => {
+  router.get('/', (_req: Request, res: Response) => {
     res.json({
       message: 'Refugee WhatsApp Bot API',
       version: '1.0.0',
@@ -22,7 +22,7 @@ export const createRoutes = (webhookController: WebhookController): Router => {
   });
 
   // 404 handler
-  router.use('*', (req, res) => {
+  router.use('*', (_req: Request, res: Response) => {
     res.status(404).json({
       error: {
         message: 'Endpoint not found',
