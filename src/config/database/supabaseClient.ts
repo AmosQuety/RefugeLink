@@ -1,7 +1,7 @@
 // src/config/database/supabaseClient.ts
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { EnvironmentConfig } from '../env';
+import { EnvironmentConfig } from '../env.js';
 
 if (!EnvironmentConfig.supabaseUrl) {
   throw new Error('❌ Missing SUPABASE_URL in environment variables.');
