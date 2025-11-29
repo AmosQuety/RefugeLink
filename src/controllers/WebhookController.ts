@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import MessagingResponse from 'twilio/lib/twiml/MessagingResponse';
+import MessagingResponse from 'twilio/lib/twiml/MessagingResponse.js';
 import { MessageService } from '../services/MessageService.js';
 import { AppLogger } from '../config/logger.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
