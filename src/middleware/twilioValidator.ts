@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import twilio from 'twilio';
 import { EnvironmentConfig } from '../config/env.js';
 import { AppLogger } from '../config/logger.js';
+import { sign } from 'crypto';
 
 /**
  * Validates Twilio webhook requests by verifying the X-Twilio-Signature header
@@ -9,11 +10,13 @@ import { AppLogger } from '../config/logger.js';
  */
 export const twilioWebhookValidator = (req: Request, res: Response, next: NextFunction): void => {
   // Skip validation in development for easier testing
-  if (!EnvironmentConfig.isProduction()) {
-    AppLogger.debug('Skipping Twilio signature validation in development mode');
-    next();
-    return;
-  }
+  
+  
+  // if (!EnvironmentConfig.isProduction()) {
+  //   AppLogger.debug('Skipping Twilio signature validation in development mode');
+  //   next();
+  //   return;
+  // }
 
   try {
     const signature = req.headers['x-twilio-signature'] as string;
@@ -21,7 +24,8 @@ export const twilioWebhookValidator = (req: Request, res: Response, next: NextFu
     if (!signature) {
       AppLogger.warn('Missing Twilio signature header', { 
         ip: req.ip,
-        path: req.path 
+        path: req.path ,
+        headers: req.headers
       });
       res.status(403).json({
         error: {
@@ -36,12 +40,14 @@ export const twilioWebhookValidator = (req: Request, res: Response, next: NextFu
     // IMPORTANT: Twilio validates against the exact URL it called
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.get('host');
-    const url = `${protocol}://${host}${req.originalUrl}`;
+    const baseUrl =  EnvironmentConfig.baseUrl || 'https://refugelink.onrender.com';
+    const url = `${baseUrl}${req.originalUrl}`;
 
     AppLogger.debug('Validating Twilio signature', { 
       url,
       hasSignature: !!signature,
-      contentType: req.get('Content-Type')
+      contentType: req.get('Content-Type'),
+      body: req.body // for debugging purposes only; remove in production
     });
 
     // Get the auth token from environment
@@ -70,7 +76,8 @@ export const twilioWebhookValidator = (req: Request, res: Response, next: NextFu
       AppLogger.warn('Invalid Twilio webhook signature', { 
         ip: req.ip,
         url,
-        bodyKeys: Object.keys(req.body)
+        bodyKeys: Object.keys(req.body),
+        signature: signature.substring(0, 10) + '...' // log partial signature for privacy
       });
       
       res.status(403).json({
